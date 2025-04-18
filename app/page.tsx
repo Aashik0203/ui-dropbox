@@ -1,103 +1,244 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Blockeight from "@/components/Blockeight";
+import Blockfive from "@/components/Blockfive";
+import Blockfour from "@/components/Blockfour";
+import Blockone from "@/components/Blockone";
+import Blockseven from "@/components/Blockseven";
+import Blocksix from "@/components/Blocksix";
+import Blockthree from "@/components/Blockthree";
+import Blocktwo from "@/components/Blocktwo";
+import Blockzero from "@/components/Blockzero";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+
+function AnimatedBlock({
+  children,
+  initial = { x: 0, y: 0, scaleX: 1, scaleY: 1 },
+}) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll();
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    if (ref.current) {
+      const { width, height } = ref.current.getBoundingClientRect();
+      setDimensions({ width, height });
+    }
+  }, []);
+
+  const x = useTransform(scrollYProgress, [1, 0], [0, initial.x]);
+  const y = useTransform(scrollYProgress, [1, 0], [0, initial.y]);
+  const scaleX = useTransform(
+    scrollYProgress,
+    [1, 0],
+    [1, initial.scaleX || 1]
+  );
+  const scaleY = useTransform(
+    scrollYProgress,
+    [1, 0],
+    [1, initial.scaleY || 1]
+  );
+  const opacity = useTransform(scrollYProgress, [1, 0], [0, 0.2]);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <motion.div
+      ref={ref}
+      className="relative  w-full h-full flex items-center justify-center text-white text-xl font-bold"
+      style={{ x, y, scaleX, scaleY }}
+    >
+      <motion.div
+        style={{
+          opacity,
+          transform: `scale(${1 / scaleX.get()}, ${1 / scaleY.get()})`,
+          transformOrigin: "center",
+        }}
+        className="absolute bottom-0  w-[800vh] h-[1px]  bg-sky-600  -z-50"
+      ></motion.div>
+      <motion.div
+        style={{
+          opacity,
+          transform: `scale(${1 / scaleX.get()}, ${1 / scaleY.get()})`,
+          transformOrigin: "center",
+        }}
+        className="absolute top-0  w-[800vh] h-[1px]  bg-sky-600  -z-50"
+      ></motion.div>
+      <motion.div
+        style={{
+          opacity,
+          transform: `scale(${1 / scaleX.get()}, ${1 / scaleY.get()})`,
+          transformOrigin: "center",
+        }}
+        className="absolute right-0  h-[800vh] w-[1px]  bg-sky-600 -z-50 "
+      ></motion.div>
+      <motion.div
+        style={{
+          opacity,
+          transform: `scale(${1 / scaleX.get()}, ${1 / scaleY.get()})`,
+          transformOrigin: "center",
+        }}
+        className="absolute left-0  h-[800vh] w-[1px]  bg-sky-600 -z-50 "
+      ></motion.div>
+      
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      {children}
+
+    </motion.div>
+  );
+}
+
+// Table with animated blocks in specific cells
+export default function Home() {
+  // Define where each block should appear (row, col, span, color, label, initial pos)
+  const blocks = [
+    {
+      id: "1",
+      row: 0,
+      col: 0,
+      rowSpan: 5,
+      // bg: "bg-orange-400",
+
+      colSpan: 2,
+      initial: { x: -323, y: -800, scaleX: 1, scaleY: 1 },
+      component: Blockone,
+    },
+    {
+      id: "2",
+      row: 0,
+      col: 2,
+      rowSpan: 4,
+      colSpan: 4,
+      initial: { x: 9, y: -407, scaleX: 1, scaleY: 1 },
+      component: Blocktwo,
+    },
+    {
+      id: "3",
+      row: 0,
+      col: 6,
+      rowSpan: 5,
+      colSpan: 3,
+      initial: { x: 1000, y: -510, scaleX: 1, scaleY: 1 },
+      component: Blockthree,
+    },
+    {
+      id: "4",
+      row: 0,
+      col: 9,
+      rowSpan: 4,
+      colSpan: 3,
+      initial: { x: 1280, y: -262, scaleX: 1, scaleY: 1 },
+      component: Blockfour,
+    },
+    {
+      id: "0",
+      row: 4,
+      col: 5,
+      rowSpan: 1,
+      colSpan: 1,
+      initial: { x: 0, y: 0, scaleX: 5, scaleY: 7 },
+      component: Blockzero,
+    },
+    {
+      id: "5",
+      row: 5,
+      col: 0,
+      rowSpan: 4,
+      colSpan: 2,
+      initial: { x: -900, y: 100, scaleX: 1, scaleY: 1 },
+      component: Blockfive,
+    },
+    {
+      id: "6",
+      row: 4,
+      col: 2,
+      rowSpan: 5,
+      colSpan: 3,
+      initial: { x: -800, y: 500, scaleX: 1, scaleY: 1 },
+      component: Blocksix,
+    },
+    {
+      id: "7",
+      row: 5,
+      col: 5,
+      rowSpan: 4,
+      colSpan: 4,
+      initial: { x: 0, y: 404, scaleX: 1, scaleY: 1 },
+      component: Blockseven,
+    },
+    {
+      id: "8",
+      row: 4,
+      col: 9,
+      rowSpan: 5,
+      colSpan: 3,
+      initial: { x: 900, y: -115, scaleX: 1, scaleY: 1 },
+      component: Blockeight,
+    },
+  ];
+
+  return (
+    <div className="relative w-screen h-[400vh] overflow-hidden bg-white">
+      <div className="fixed top-0 left-0 w-screen h-screen -m-2 p-5">
+        <table className=" border-separate border-spacing-2 table-fixed w-full h-full ">
+          <tbody>
+            {Array.from({ length: 9 }).map((_, rowIndex) => (
+              <tr key={rowIndex} className="h-[11.11%]">
+                {Array.from({ length: 12 }).map((_, colIndex) => {
+                  const block = blocks.find(
+                    (b) => b.row === rowIndex && b.col === colIndex
+                  );
+
+                  if (block) {
+                    return (
+                      <td
+                        key={colIndex}
+                        rowSpan={block.rowSpan}
+                        colSpan={block.colSpan}
+                        className={``}
+                        style={{ width: `${(block.colSpan / 12) * 100}%` }}
+                      >
+                        <AnimatedBlock
+                          initial={
+                            block.initial || {
+                              x: 0,
+                              y: 0,
+                              scaleX: 1,
+                              scaleY: 1,
+                            }
+                          }
+                        >
+                          <div
+                            className={`w-full h-full ${block.bg}  flex items-center justify-center`}
+                          >
+                            <block.component />
+                          </div>
+                        </AnimatedBlock>
+                      </td>
+                    );
+                  }
+
+                  // If a cell is covered by a rowspan/colspan above, skip rendering it
+                  const isCovered = blocks.some((b) => {
+                    const inRow =
+                      rowIndex >= b.row && rowIndex < b.row + b.rowSpan;
+                    const inCol =
+                      colIndex >= b.col && colIndex < b.col + b.colSpan;
+                    return (
+                      inRow &&
+                      inCol &&
+                      !(b.row === rowIndex && b.col === colIndex)
+                    );
+                  });
+
+                  return isCovered ? null : (
+                    <td key={colIndex} className="border border-gray-700"></td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
