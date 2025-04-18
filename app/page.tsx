@@ -18,7 +18,6 @@ function AnimatedBlock({
 }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll();
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     if (ref.current) {
