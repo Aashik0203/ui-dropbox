@@ -10,7 +10,7 @@ import Blockthree from "@/components/Blockthree";
 import Blocktwo from "@/components/Blocktwo";
 import Blockzero from "@/components/Blockzero";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 
 function AnimatedBlock({
   children,
@@ -19,12 +19,7 @@ function AnimatedBlock({
   const ref = useRef(null);
   const { scrollYProgress } = useScroll();
 
-  useEffect(() => {
-    if (ref.current) {
-      const { width, height } = ref.current.getBoundingClientRect();
-      setDimensions({ width, height });
-    }
-  }, []);
+  
 
   const x = useTransform(scrollYProgress, [1, 0], [0, initial.x]);
   const y = useTransform(scrollYProgress, [1, 0], [0, initial.y]);
@@ -207,7 +202,7 @@ export default function Home() {
                           }
                         >
                           <div
-                            className={`w-full h-full ${block.bg}  flex items-center justify-center`}
+                            className={`w-full h-full   flex items-center justify-center`}
                           >
                             <block.component />
                           </div>
